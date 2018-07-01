@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Page</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+
+	});
+  var username ='';
+  var password ='';
+	function callLoginService(){
+           username = $("#username").val();
+           password = $("#password").val();
+           //alert(username + " "+ password);
+
+           /////
+            $.get("http://localhost:8001/login", function(data, status){
+                console.log(data);
+                iterateData(data,username);
+
+                }
+            );
+	         }
+
+   function callSerive(){
+           
+            $.get("http://localhost:8001/login", function(data, status){
+                iterateDataToDisplay(data);
+
+                }
+            );
+           }
+
+   function iterateData(arr, user){
+          for (x in arr) {
+              if(arr[x].user == user)
+              {
+                $("#div").html("<h3>Log-in Successfuly</h3>");
+              
+                  return;
+              }
+              else
+              {
+                $("#div").html("<h3>Log-in fail</h3>");
+                 
+              }
+              
+          }
+   }
+
+   function iterateDataToDisplay(temp){
+
+       var html = "<ul>";
+         for (x in temp) {
+             //html += "<li style='padding:5px;'>User Name: "+temp[x].user+" | id: "+temp[x]._id+"</li>";
+             html += "<div class='row'><div class='col-md-4'>"+temp[x]._id+"</div><div class='col-md-4'>"+temp[x].user+"</div><div class='col-md-4'>"+temp[x].pass+"</div></div>";
+
+         }
+         html +="</ul>";
+        $("#show").html(html);
+
+   }
+</script>
+</head>
+<body>
+
+
+
+
+
+<div class="container">
+    <h1>Enter credentials</h1><div id="div"></div>
+    <div class="form-group">
+      <label for="email">Username:</label>
+      <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" name="remember"> Remember me</label>
+    </div>
+    <button type="submit" class="btn btn-default" onClick="callLoginService();">login</button>
+</div>
+
+<div class="container">
+  <a href="registration.html" target="_blank">Sign Up</a>
+</div>
+<div class="container">
+  <a href="#" onClick="callSerive();">All Users</a>
+</div>
+<div class="container" id="show" style="height:150px; overflow-y:scroll;">
+  
+</div>
+
+
+
+
+
+
+
+</body>
+</html>
